@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: email-list-app
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    autoDeploy: false
+    envVars:
+      - key: PORT
+        value: 8080
