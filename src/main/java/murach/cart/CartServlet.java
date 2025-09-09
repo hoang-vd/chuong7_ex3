@@ -28,7 +28,7 @@ public class CartServlet extends HttpServlet {
         // perform action and set URL to appropriate page
         if (action.equals("shop")) {
             url = "/index.jsp";    // the "index" page
-        } 
+        }
         else if (action.equals("cart")) {
             String productCode = request.getParameter("productCode");
             String quantityString = request.getParameter("quantity");
@@ -39,8 +39,7 @@ public class CartServlet extends HttpServlet {
                 cart = new Cart();
             }
 
-            //if the user enters a negative or invalid quantity,
-            //the quantity is automatically reset to 1.
+            // Xử lý số lượng
             int quantity;
             try {
                 quantity = Integer.parseInt(quantityString);
@@ -53,7 +52,8 @@ public class CartServlet extends HttpServlet {
 
             String path = sc.getRealPath("/WEB-INF/products.txt");
             Product product = ProductIO.getProduct(productCode, path);
-            // thêm
+
+            // Lấy quantity cũ
             int oldQuantity = 0;
             for (LineItem it : cart.getItems()) {
                 if (it.getProduct().getCode().equals(productCode)) {
@@ -62,22 +62,22 @@ public class CartServlet extends HttpServlet {
                 }
             }
 
-            // Kiểm tra đây có phải là thao tác Update không (presence check)
             boolean isUpdate = request.getParameter("update") != null;
 
-            if (!isUpdate) {
-                // Add To Cart -> cộng dồn
-                quantity = oldQuantity + quantity;
-            } // else isUpdate == true -> giữ quantity nhập vào (replace)
+            // ✅ Kiểm tra Remove trước khi cộng dồn
+            if (quantity == 0) {
+                cart.removeItemByCode(productCode);
+            } else {
+                // Nếu không phải update (nghĩa là Add To Cart) → cộng dồn
+                if (!isUpdate) {
+                    quantity = oldQuantity + quantity;
+                }
 
-            LineItem lineItem = new LineItem();
-            lineItem.setProduct(product);
-            lineItem.setQuantity(quantity);
+                LineItem lineItem = new LineItem();
+                lineItem.setProduct(product);
+                lineItem.setQuantity(quantity);
 
-            if (quantity > 0) {
                 cart.addItem(lineItem);
-            } else if (quantity == 0) {
-                cart.removeItem(lineItem);
             }
 
             session.setAttribute("cart", cart);

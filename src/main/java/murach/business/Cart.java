@@ -42,12 +42,15 @@ public class Cart implements Serializable {
         }
     }
 
-    public LineItem getItem(Product product) {
-        for (LineItem item : items) {
-            if (item.getProduct().getCode().equals(product.getCode())) {
-                return item;
+    public void removeItemByCode(String code) {
+        if (code == null) return;
+        for (int i = 0; i < items.size(); i++) {
+            LineItem lineItem = items.get(i);
+            if (lineItem.getProduct().getCode().equals(code)) {
+                items.remove(i);
+                return;
             }
         }
-        return null;
     }
+
 }

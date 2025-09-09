@@ -24,7 +24,7 @@
     <td>
       <form action="cart" method="post">
         <input type="hidden" name="productCode" value="${item.product.code}">
-        <input type="hidden" name="update" value="true">  <!-- phân biệt update với Add -->
+        <input type="hidden" name="update" value="true">
         <input type=text name="quantity" value="${item.quantity}" id="quantity">
         <input type="submit" value="Update">
       </form>
@@ -33,16 +33,7 @@
     <td>${item.product.priceCurrencyFormat}</td>
     <td>${item.totalCurrencyFormat}</td>
     <td>
-    <%--
-      <form action="cart" method="post">
-        <input type="hidden" name="productCode" 
-               value="${item.product.code}">
-        <input type="hidden" name="quantity" 
-               value="0">
-        <input type="submit" value="Remove Item">
-      </form>
-    --%>
-        <a href="cart?productCode=${item.product.code}&quantity=0" class="remove-link">Remove Item</a>
+        <a href="cart?action=cart&productCode=${item.product.code}&quantity=0" class="remove-link">Remove</a>
     </td>
   </tr>
 </c:forEach>
@@ -52,7 +43,7 @@
       and click on the Update button.</p>
 
 <div class="button-group">
-    <form action="" method="post">
+    <form action="cart" method="post">
       <input type="hidden" name="action" value="shop">
       <input type="submit" value="Continue Shopping">
     </form>
