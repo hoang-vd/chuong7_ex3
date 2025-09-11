@@ -64,7 +64,7 @@ public class CartServlet extends HttpServlet {
 
             boolean isUpdate = request.getParameter("update") != null;
 
-            // ✅ Kiểm tra Remove trước khi cộng dồn
+            // Kiểm tra Remove trước khi cộng dồn
             if (quantity == 0) {
                 cart.removeItemByCode(productCode);
             } else {
